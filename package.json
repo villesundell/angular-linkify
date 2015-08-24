@@ -20,7 +20,7 @@
     "linkify",
     "twitter"
   ],
-  "author": "Scott Corgan",
+  "author": "Scott Corgan and others",
   "license": "BSD",
   "bugs": {
     "url": "https://github.com/scottcorgan/angular-linkify/issues"
