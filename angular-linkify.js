@@ -4,6 +4,25 @@ angular.module('linkify')
   .filter('linkify', function () {
       'use strict';
 
+      // add protocol for url without specified protocol
+      function add_protocol (url) {
+        if(/(([\w]+:)?\/\/)/ig.test(url) === false) {
+            url = 'http://' + url;
+        }
+        return url;
+      }
+
+      // for email link, add 'mailto:'
+      function link_email (email) {
+          var wrap = document.createElement('div');
+          var anch = document.createElement('a');
+          anch.href = 'mailto:' + email;
+          anch.target = '_blank';
+          anch.innerHTML = email;
+          wrap.appendChild(anch);
+          return wrap.innerHTML;
+      }
+
       function linkify (_str, type) {
         if (!_str) {
           return;
@@ -18,7 +37,12 @@ angular.module('linkify')
           wrap.appendChild(anch);
           return wrap.innerHTML;
         });
-
+  
+        // replace email url
+        if(/([\w-.!#$%&'*+=/=?^_`{|}~]+)@((?:\w+\.)+)(?:[a-zA-Z]{2,4})/ig.test(_str)) {
+            _text = link_email(_str);
+        }
+        
         // bugfix
         if (!_text) {
           return '';
